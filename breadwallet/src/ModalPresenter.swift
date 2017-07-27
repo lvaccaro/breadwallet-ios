@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Logger
 
 class ModalPresenter : Subscriber {
 
@@ -428,6 +429,16 @@ class ModalPresenter : Subscriber {
                 self.topViewController?.present(alert, animated: true, completion: nil)
             })
         )
+
+        if E.isTestFlight || E.isDebug {
+            rows["Bread"]?.append( Setting(title: "Copy Logs", callback: {
+                BRCopyLogs()
+                let alert = UIAlertController(title: "Copied", message: "Logs Copied", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.topViewController?.present(alert, animated: true, completion: nil)
+            })
+            )
+        }
 
         let settings = SettingsViewController(sections: sections, rows: rows)
         settingsNav.viewControllers = [settings]
